@@ -23,7 +23,7 @@ $user = $statement->fetchColumn();
 
 if($user) {
     $_SESSION['user']=$user;
-    header('Location: /task/list.php');
+    header('Location: /task/index.php');
     exit;
 }
 else{
