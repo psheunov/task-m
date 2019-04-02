@@ -40,7 +40,7 @@ session_start();
             <div class="col-sm-4 offset-md-1 py-4">
               <h4 class="text-white">john@example.com</h4>
               <ul class="list-unstyled">
-                <li><a href="#" class="text-white">Выйти</a></li>
+                <li><a href="logout.php" class="text-white">Выйти</a></li>
               </ul>
             </div>
           </div>

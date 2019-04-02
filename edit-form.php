@@ -5,7 +5,7 @@ $sql = 'SELECT * FROM tasks WHERE id=:id';
 
 $statement = $pdo->prepare($sql);
 $statement->execute(array(':id' => $_GET['id']));
-$task  = $statement->fetchAll();
+$task  = $statement->fetch();
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,20 +33,20 @@ $task  = $statement->fetchAll();
               </div>
           <?endif;?>
           <input type="hidden" name="id" value="<?=$_GET['id']?>">
-          <input type="hidden" name="img" value="<?=$task[0]['img']?>">
+          <input type="hidden" name="img" value="<?=$task['img']?>">
         <h1 class="h3 mb-3 font-weight-normal">Добавить запись</h1>
         <label for="inputEmail" class="sr-only">Название</label>
-        <input type="text" name="name" class="form-control" placeholder="Название" required value="<?=$task[0]['name']?>">
+        <input type="text" name="name" class="form-control" placeholder="Название" required value="<?=$task['name']?>">
         <label for="inputEmail" class="sr-only">Описание</label>
-        <textarea name="description" class="form-control" cols="30" rows="3" placeholder="Описание"><?=$task[0]['description']?></textarea>
+        <textarea name="description" class="form-control" cols="30" rows="3" placeholder="Описание"><?=$task['description']?></textarea>
           <label for="inputEmail" class="sr-only">Полный текст</label>
-          <textarea name="fulltext" class="form-control" cols="30" rows="3" placeholder="Полный текст"><?=$task[0]['fulltxt']?></textarea>
+          <textarea name="fulltext" class="form-control" cols="30" rows="3" placeholder="Полный текст"><?=$task['fulltxt']?></textarea>
           <label>
-              <input name="draft" <?if($task[0]["draft"] == '1') echo 'checked';?>  type="checkbox">
+              <input name="draft" <?if($task["draft"] == '1') echo 'checked';?>  type="checkbox">
               Черновик
           </label>
           <input name="image" type="file">
-        <img src="<?=$task[0]['img']?>" alt="" width="300" class="mb-3">
+        <img src="<?=$task['img']?>" alt="" width="300" class="mb-3">
         <button class="btn btn-lg btn-success btn-block" type="submit">Редактировать</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2018-2019</p>
       </form>
