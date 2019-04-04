@@ -1,4 +1,6 @@
 <?
+include "/functions.php";
+isAuth();
 //подготовка и выполнение запроса к БД
 $pdo = new PDO('mysql:host=localhost;dbname=task-manager', 'root','');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -15,5 +17,4 @@ $statement = $pdo->prepare($sql);
 $params = array(':id' => $_GET['id']);
 $statement->execute(($params));
 //Переадресация на страницу авторизации
-header('Location: index.php');
-exit;
+redirect('index.php');

@@ -1,11 +1,7 @@
 <?php
-session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=task-manager', 'root','');
-$sql = 'SELECT * FROM tasks WHERE id=:id';
-
-$statement = $pdo->prepare($sql);
-$statement->execute(array(':id' => $_GET['id']));
-$task  = $statement->fetch();
+include "/functions.php";
+isAuth();
+$task  = getTaskById($_GET['id'],$pdo);
 ?>
 <!doctype html>
 <html lang="en">

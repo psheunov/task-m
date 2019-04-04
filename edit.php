@@ -1,5 +1,6 @@
 <?
-session_start();
+include "/functions.php";
+isAuth();
 $userId = $_SESSION['user'];
 $name = $_POST['name'];
 $description = $_POST['description'];
@@ -45,13 +46,10 @@ if(!empty( $_SESSION['error'])){
     unset($_SESSION['error']);
 }
 //подготовка и выполнение запроса к БД
-$pdo = new PDO('mysql:host=localhost;dbname=task-manager', 'root','');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $sql = 'UPDATE tasks SET  name=?, description=?, fulltxt=?, img=?, draft=? WHERE id = ?';
 $statement = $pdo->prepare($sql);
 $params = array($name, $description, $fullText,  $img ,$draft, $taskId);
 $result = $statement->execute(($params));
 
 //Переадресация на страницу авторизации
-header('Location: /index.php');
-exit;
+redirect('index.php');

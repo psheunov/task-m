@@ -1,12 +1,6 @@
 <?php
-session_start();
-?>
-<?if(!$_SESSION['user'])
-{
-    header('Location: /task/login-form.php');
-    exit;
-}
-
+include "/functions.php";
+isAuth();
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,11 +19,9 @@ session_start();
     <div class="form-wrapper text-center">
       <form class="form-signin" action="create.php" method="post" enctype="multipart/form-data">
         <img class="mb-4" src="assets/img/bootstrap-solid.svg" alt="" width="72" height="72">
-          <?if(!empty( $_SESSION['error'])):?>
-              <div class="container text-center mt-5">
-                  <p class="text-error"><?=$_SESSION['error']?></p>
-              </div>
-          <?endif;?>
+         <?
+         showError();
+         ?>
         <h1 class="h3 mb-3 font-weight-normal">Добавить запись</h1>
         <input type="text" name="name" class="form-control" placeholder="Название" required>
         <textarea name="description" class="form-control" cols="30" rows="3" placeholder="Описание"></textarea>

@@ -1,4 +1,9 @@
-
+<?php
+include "/functions.php";
+isAuth();
+$pdo = new PDO('mysql:host=localhost;dbname=task-manager', 'root','');
+$task  = getTaskById($_GET['id'],$pdo);
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,10 +22,10 @@
 
   <body>
     <div class="form-wrapper text-center">
-      <img src="assets/img/no-image.jpg" alt="" width="400">
-      <h2>Lorem ipsum</h2>
+      <img src="<?=$task['img']?>" alt="" width="400">
+      <h2><?=$task['name']?></h2>
       <p>
-        Пройти первый а потом второй урок. Закрепить практикой и написать проект сначала без подглядываний.
+          <?=$task['fulltxt']?>
       </p>
     </div>
   </body>

@@ -1,5 +1,6 @@
-<?
-session_start();
+<?php
+include "/functions.php";
+isAuth();
 $userId = $_SESSION['user'];
 $name = $_POST['name'];
 $description = $_POST['description'];
@@ -15,8 +16,7 @@ else{
 foreach ($_POST as $post){
     if(empty($post)){
         $errorMessage = 'Заполните все поля.';
-        include 'errors.php';
-        exit;
+        includeError();
     }
 }
 // если была произведена отправка формы
@@ -46,5 +46,4 @@ $params = array(':userId' => $userId,':name' => $name, ':description' => $descri
 $result = $statement->execute(($params));
 
 //Переадресация на страницу авторизации
-header('Location: /index.php');
-exit;
+redirect('index.php');

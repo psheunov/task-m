@@ -1,19 +1,16 @@
 <?php
-session_start();
+include "/functions.php";
+isAuth(false);
 ?>
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
     <title>Login</title>
-
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
-    
     <style>
-      
     </style>
   </head>
 
@@ -21,12 +18,7 @@ session_start();
     <div class="form-wrapper text-center">
       <form class="form-signin" action="login.php" method="post">
         <img class="mb-4" src="assets/img/bootstrap-solid.svg" alt="" width="72" height="72">
-
-          <?if(!empty( $_SESSION['error'])):?>
-              <div class="container text-center mt-5">
-                  <p class="text-error"><?=$_SESSION['error']?></p>
-              </div>
-          <?endif;?>
+          <?showError()?>
         <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
         <label for="inputEmail" class="sr-only">Email</label>
         <input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" required autofocus>

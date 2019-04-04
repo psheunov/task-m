@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * Date: 27.02.2019
- * Time: 21:01
- */
-//Получение данных из формы регистрации
+include "/functions.php";
+isAuth(false);
 $username = $_POST['name'];
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -13,26 +9,18 @@ $password = $_POST['password'];
 foreach ($_POST as $post){
     if(empty($post)){
         $errorMessage = 'Заполните все поля.';
-        include 'errors.php';
-        exit;
+        includeError();
     }
 }
 
 //подготовка и выполнение запроса к БД
-$pdo = new PDO('mysql:host=localhost;dbname=task-manager', 'root','');
 $sql = 'SELECT id FROM users WHERE email=:email';
-
-
-
 $statement = $pdo->prepare($sql);
-//$statement->execute([':email' => $email]);
 $statement->execute(array(':email' => $email));
-
 $user = $statement->fetchColumn();
 if($user) {
     $errorMessage = 'Пользователь ы таким email уже существует';
-    include 'errors.php';
-    exit;
+    includeError();
 }
 
 $sql = 'INSERT INTO users (username, email, password) VALUES (:username, :email, :password)';
@@ -44,9 +32,7 @@ $result = $statement->execute((array(':username' => $username,':email' => $email
 
 if(!$result){
     $errorMessage = 'Ошибка регистрации.';
-    include 'errors.php';
-    exit;
+    includeError();
 }
 //Переадресация на страницу авторизации
-header('Location: /task/login-form.php');
-exit;
+redirect('login-form.php');

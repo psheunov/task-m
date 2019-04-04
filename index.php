@@ -1,34 +1,18 @@
 <?php
-session_start();
-?>
-<?
-    if(!$_SESSION['user'])
-        {
-            header('Location: /task/login-form.php');
-            exit;
-        }
-        echo $_SESSION['user'];
-    $pdo = new PDO('mysql:host=localhost;dbname=task-manager', 'root','');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "SELECT  `id`, `name`, `img`, `description` FROM tasks WHERE user_id=:id";
-    $statement = $pdo->prepare($sql);
-    $statement->execute(array(':id' => $_SESSION['user']));
-    $tasks  = $statement->fetchAll();
+    include "/functions.php";
+    isAuth();
+    $tasks  = getAllTasks($pdo);
 ?>
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
     <title>Tasks</title>
-
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
-
   <body>
-
     <header>
       <div class="collapse bg-dark" id="navbarHeader">
         <div class="container">
