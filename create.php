@@ -13,37 +13,12 @@ else{
 }
 
 //Проверка данных на пустоту
-foreach ($_POST as $post){
-    if(empty($post)){
-        $errorMessage = 'Заполните все поля.';
-        includeError();
-    }
-}
+validEmpty($_POST);
 // если была произведена отправка формы
-if(isset($_FILES['image'])) {
-    // загружаем изображение на сервер
-    $file_name = $_FILES['image']['name'];
-    $file_size = $_FILES['image']['size'];
-    $file_tmp = $_FILES['image']['tmp_name'];
-    $file_type = $_FILES['image']['type'];
-    $file_ext = strtolower(end(explode('.',$_FILES['image']['name'])));
-    $file_name = uniqid() .'.'.$file_ext;
-    if($file_ext != 'jpg' and $file_ext != 'png'){
-        $_SESSION['error']='Неверное расширение изображения';
-        header('Location: /create-form.php');
-        exit;
-    }
-    $img ='upload/'.$file_name;
-    move_uploaded_file($file_tmp, $img);
-}
-
+$img = addImage($_FILES, 'create-form.php');
 //подготовка и выполнение запроса к БД
-$pdo = new PDO('mysql:host=localhost;dbname=task-manager', 'root','');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $sql = 'INSERT INTO tasks (user_id, name, description, fulltxt, img, draft) VALUES (:userId, :name, :description, :fullText, :img, :draft)';
-$statement = $pdo->prepare($sql);
 $params = array(':userId' => $userId,':name' => $name, ':description' => $description,':fullText' => $fullText, ':img' => $img, ':draft' => $draft);
-$result = $statement->execute(($params));
-
+$result = addElem($sql, $params, $pdo);
 //Переадресация на страницу авторизации
 redirect('index.php');

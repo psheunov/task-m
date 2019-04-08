@@ -6,33 +6,16 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 
 //Проверка данных на пустоту
-foreach ($_POST as $post){
-    if(empty($post)){
-        $errorMessage = 'Заполните все поля.';
-        includeError();
-    }
-}
-
+validEmpty($_POST);
 //подготовка и выполнение запроса к БД
 $sql = 'SELECT id FROM users WHERE email=:email';
-$statement = $pdo->prepare($sql);
-$statement->execute(array(':email' => $email));
-$user = $statement->fetchColumn();
-if($user) {
-    $errorMessage = 'Пользователь ы таким email уже существует';
-    includeError();
-}
-
-$sql = 'INSERT INTO users (username, email, password) VALUES (:username, :email, :password)';
-$statement = $pdo->prepare($sql);
+$execute = array(':email' => $email);
+$user = getElement($sql, $execute, $pdo);
+includeError($user,'Пользователь ы таким email уже существует');
 $password= md5($password);
-//echo  $password;
-//$result = $statement->execute($_POST);
-$result = $statement->execute((array(':username' => $username,':email' => $email,':password' => $password)));
-
-if(!$result){
-    $errorMessage = 'Ошибка регистрации.';
-    includeError();
-}
+$sql = 'INSERT INTO users (username, email, password) VALUES (:username, :email, :password)';
+$execute = array(':username' => $username,':email' => $email,':password' => $password);
+$result = addElem($sql, $execute, $pdo);
+includeError(!$result,'Ошибка регистрации.');
 //Переадресация на страницу авторизации
 redirect('login-form.php');
